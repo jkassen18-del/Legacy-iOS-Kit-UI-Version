@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en" data-theme="auto">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Legacy iOS Kit</title>
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><rect x='6.5' y='2.5' width='11' height='19' rx='2.6' fill='none' stroke='%231d1d1f' stroke-width='1.6'/><line x1='10.5' y1='18.6' x2='13.5' y2='18.6' stroke='%231d1d1f' stroke-width='1.6'/></svg>">
+</head>
+<body>
+  <div class="titlebar">
+    <div class="lights" aria-hidden="true"><i class="r"></i><i class="y"></i><i class="g"></i></div>
+    <button class="tb-btn icon" id="menuToggle" title="Sections" style="display:none">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+    </button>
+    <h1>Legacy iOS Kit</h1>
+    <span class="sub" id="titleSub"></span>
+    <div class="spacer"></div>
+    <button class="tb-btn icon" id="themeToggle" title="Appearance">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M20.5 13A8.5 8.5 0 1 1 11 3.5a6.5 6.5 0 0 0 9.5 9.5z"/></svg>
+    </button>
+  </div>
+
+  <div class="shell">
+    <aside class="source" id="source">
+      <div class="device">
+        <div class="glyph">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="6.5" y="2.5" width="11" height="19" rx="2.6"/><line x1="10.5" y1="18.6" x2="13.5" y2="18.6"/></svg>
+        </div>
+        <div class="meta">
+          <div class="name" id="devName">Detecting…</div>
+          <div class="line" id="devLine">reading USB</div>
+        </div>
+        <span class="pill" id="devPill">none</span>
+      </div>
+
+      <nav class="nav" id="nav"></nav>
+
+      <div class="spacer"></div>
+
+      <div class="src-foot">
+        <div class="env-row"><span class="state" id="envState"></span><span class="txt" id="envTxt">checking…</span></div>
+        <div class="src-tools" id="tools"></div>
+        <div class="src-actions">
+          <button class="mini" id="refreshBtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M20 11a8 8 0 1 0-1.8 6.3"/><path d="M20 5v5h-5"/></svg>
+            <span id="refreshLabel">Refresh</span>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <main class="content">
+      <section class="pane" id="pane"></section>
+
+      <section class="console-pane" id="consolePane" hidden>
+        <div class="console-head">
+          <span class="run" id="runStatus"><span class="dot"></span><span id="runText">idle</span></span>
+          <code class="cmd" id="runCmd">restore.sh</code>
+          <div class="spacer"></div>
+          <button class="tb-btn" id="clearBtn">Clear</button>
+          <button class="tb-btn danger" id="stopBtn" disabled>Stop</button>
+        </div>
+        <div class="console" id="console" tabindex="0"></div>
+        <div class="interact" id="interact" hidden>
+          <div class="q" id="interactQ">Waiting for input…</div>
+          <div class="opts" id="opts"></div>
+          <div class="inputrow">
+            <input id="freeInput" type="text" autocomplete="off" spellcheck="false"
+                   placeholder="Type a response and press Return — a number, y/n, or a file path">
+            <button class="tb-btn primary" id="sendBtn">Send</button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="menu.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

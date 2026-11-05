@@ -1,0 +1,13 @@
+# Auto-fetched Legacy iOS Kit checkout (do not commit the upstream tool/binaries)
+gui/Legacy-iOS-Kit/
+restore.sh
+resources/
+bin/
+
+# Python
+__pycache__/
+*.pyc
+
+# OS / editor
+.DS_Store
+*.swp

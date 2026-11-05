@@ -1,0 +1,81 @@
+name: Build desktop app
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install Inno Setup
+        run: choco install innosetup --no-progress -y
+      - name: Build (portable + installer)
+        shell: pwsh
+        run: ./desktop/build-windows.ps1
+      - uses: actions/upload-artifact@v4
+        with:
+          name: windows
+          path: |
+            dist/LegacyiOSKit-portable-win64.zip
+            dist/installer/LegacyiOSKit-Setup.exe
+          if-no-files-found: error
+
+  macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Build
+        run: bash desktop/build-unix.sh
+      - uses: actions/upload-artifact@v4
+        with:
+          name: macos
+          path: dist/LegacyiOSKit-portable-macos.zip
+          if-no-files-found: error
+
+  linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install GTK WebKit (pywebview backend)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libgirepository1.0-dev gir1.2-webkit2-4.1 \
+            python3-gi gir1.2-gtk-3.0 || \
+          sudo apt-get install -y libgirepository1.0-dev gir1.2-webkit2-4.0 python3-gi
+      - name: Build
+        run: bash desktop/build-unix.sh
+      - uses: actions/upload-artifact@v4
+        with:
+          name: linux
+          path: dist/LegacyiOSKit-portable-linux-*.tar.gz
+          if-no-files-found: error
+
+  release:
+    needs: [windows, macos, linux]
+    if: startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+      - name: Publish release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: artifacts/**/*
+          generate_release_notes: true

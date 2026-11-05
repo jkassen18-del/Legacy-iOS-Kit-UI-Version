@@ -1,0 +1,7 @@
+# Runtime + build dependencies for the Legacy iOS Kit desktop app.
+# The GUI server itself needs no third-party packages; these are only for the
+# native-window wrapper and for producing installers/portable binaries.
+pywebview>=5.1
+pyinstaller>=6.6
+# Windows WebView2 backend for pywebview:
+pythonnet>=3.0.3 ; sys_platform == "win32"
